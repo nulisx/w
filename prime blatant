@@ -13,7 +13,7 @@
                                 -- OPEN SOURCED
                                  -- OPEN SOURCED
                                   -- OPEN SOURCED -- OPEN SOURCED -- OPEN SOURCED -- OPEN SOURCED
-                                local Aiming = loadstring(game:HttpGet("https://pastebin.com/raw/ziB8YGHT", true))()
+                                local Aiming = loadstring(game:HttpGet("https://raw.githubusercontent.com/nulisx/w/refs/heads/main/blatant", true))()
                             Aiming.TeamCheck(false)
                              
                             
