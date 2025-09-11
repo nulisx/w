@@ -13,7 +13,7 @@
                                 -- OPEN SOURCED
                                  -- OPEN SOURCED
                                   -- OPEN SOURCED -- OPEN SOURCED -- OPEN SOURCED -- OPEN SOURCED
-                                local Aiming = loadstring(game:HttpGet("https://github.com/nulisx/w/raw/refs/heads/main/semi%20blatant", true))()
+                                local Aiming = loadstring(game:HttpGet("https://raw.githubusercontent.com/nulisx/w/refs/heads/main/semi%20blatant", true))()
                             Aiming.TeamCheck(false)
                              
                             
