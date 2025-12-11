@@ -1,4 +1,4 @@
--- Protected Script - Yuri
+-- Protected Script - Emorave
 local _0x1 = getfenv()
 local _0x2 = {
     [1] = game:GetService("Players"),
@@ -31,7 +31,7 @@ end
 
 local function _0xNOTIFY(t, m, d)
     local n = Instance.new("ScreenGui")
-    n.Name = "YuriNotif"
+    n.Name = "EmoraveNotif"
     n.Parent = _0x2[6]
     
     local f = Instance.new("Frame")
@@ -80,12 +80,12 @@ local function _0xNOTIFY(t, m, d)
     end)
 end
 
-print("[Yuri] Running on:", _0xEXE)
-print("[Yuri] Hooking:", _0xCAP[1] and "✓" or "✗")
-print("[Yuri] Metatable:", _0xCAP[5] and "✓" or "✗")
+print("[Emorave] Running on:", _0xEXE)
+print("[Emorave] Hooking:", _0xCAP[1] and "✓" or "✗")
+print("[Emorave] Metatable:", _0xCAP[5] and "✓" or "✗")
 
 task.delay(1, function()
-    _0xNOTIFY("Yuri Loaded", "Running on: " .. _0xEXE, 4)
+    _0xNOTIFY("Emorave Loaded", "Running on: " .. _0xEXE, 4)
 end)
 
 -- Config Presets
@@ -136,7 +136,7 @@ local _0xPRESET = {
     }
 }
 
-getgenv().Yuri = {
+getgenv().Emorave = {
     Global = {
         Enabled = true,
         Keybind = "C"
@@ -271,7 +271,7 @@ getgenv().Yuri = {
 
 -- AC Bypass
 if _0xCAP[1] and _0xCAP[2] and _0xCAP[3] then
-    print("[Yuri] Initializing AC bypass...")
+    print("[Emorave] Initializing AC bypass...")
     
     local _0xLOG = _0x2[7]
     local _0xMSG = _0xLOG.MessageOut
@@ -308,7 +308,7 @@ if _0xCAP[1] and _0xCAP[2] and _0xCAP[3] then
             end
         end)
         if not s then
-            warn("[Yuri] AC bypass failed (non-critical):", e)
+            warn("[Emorave] AC bypass failed (non-critical):", e)
         end
     end
     
@@ -335,7 +335,7 @@ if _0xCAP[1] and _0xCAP[2] and _0xCAP[3] then
         end
     end)
 else
-    warn("[Yuri] AC bypass disabled - executor doesn't support required functions")
+    warn("[Emorave] AC bypass disabled - executor doesn't support required functions")
 end
 
 -- GUI Variables
@@ -370,7 +370,7 @@ local _0xHUM = _0xCHAR:WaitForChild("Humanoid")
 local _0xOWS = _0xHUM.WalkSpeed
 local _0xOJP = _0xHUM.JumpPower
 
-local _0xCORRECT = "Yuri"
+local _0xCORRECT = "Emorave"
 local _0xCURCOL = Color3.fromRGB(255, 255, 255)
 local _0xTYPCOL = Color3.fromRGB(128, 128, 128)
 local _0xULEN = 1
@@ -386,7 +386,7 @@ local _0xAUTH = false
 _0xGUI.Name = "CST"
 _0xGUI.Parent = _0x2[6]
 
-_0xFRAME.Name = "YuriFrame"
+_0xFRAME.Name = "EmoraveFrame"
 _0xFRAME.Parent = _0xGUI
 _0xFRAME.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 _0xFRAME.Size = UDim2.new(0, 600, 0, 300)
@@ -413,7 +413,7 @@ _0xTTXT.Parent = _0xTBAR
 _0xTTXT.BackgroundTransparency = 1
 _0xTTXT.Size = UDim2.new(0, 100, 1, 0)
 _0xTTXT.Position = UDim2.new(0, 28, 0, 0)
-_0xTTXT.Text = "Yuri"
+_0xTTXT.Text = "Emorave"
 _0xTTXT.Font = Enum.Font.SourceSans
 _0xTTXT.TextColor3 = Color3.fromRGB(255, 255, 255)
 _0xTTXT.TextSize = 18
@@ -541,7 +541,7 @@ _0xCLOSE.MouseButton1Click:Connect(function()
     _0xGUI:Destroy()
 end)
 
-_0xASCII.Name = "YuriASCII"
+_0xASCII.Name = "EmoraveASCII"
 _0xASCII.Parent = _0xFRAME
 _0xASCII.BackgroundTransparency = 1
 _0xASCII.Size = UDim2.new(1, 0, 0.6, 0)
@@ -608,7 +608,7 @@ end
 
 _0xMBTN.MouseButton1Click:Connect(function()
     _0xMOBILE = true
-    print("[Yuri] Mobile Mode button clicked - isMobileMode set to TRUE")
+    print("[Emorave] Mobile Mode button clicked - isMobileMode set to TRUE")
     _0xPROCEED()
 end)
 
@@ -630,7 +630,7 @@ _0xUIS.InputBegan:Connect(function(i, g)
             _0xHUM.JumpPower = _0xOJP
             if _0xTYPED == _0xCORRECT then
                 _0xMOBILE = false
-                print("[Yuri] PC Mode (typed key) - isMobileMode set to FALSE")
+                print("[Emorave] PC Mode (typed key) - isMobileMode set to FALSE")
                 _0xPROCEED()
             else
                 _0xPLR:Kick("Invalid Key")
@@ -977,23 +977,23 @@ function applyConfig(p, e)
     local pr = _0xPRESET[p]
     if pr then
         if pr["Silent Aimbot"] then
-            getgenv().Yuri["Silent Aimbot"]["FOV"]["Enabled"] = pr["Silent Aimbot"].FOV.Enabled
-            getgenv().Yuri["Silent Aimbot"]["FOV"]["Size"]["X"] = pr["Silent Aimbot"].FOV.Size.X
+            getgenv().Emorave["Silent Aimbot"]["FOV"]["Enabled"] = pr["Silent Aimbot"].FOV.Enabled
+            getgenv().Emorave["Silent Aimbot"]["FOV"]["Size"]["X"] = pr["Silent Aimbot"].FOV.Size.X
         end
         
         if pr["Silent Aimbot"]["Movement Modifications"] then
             local sm = pr["Silent Aimbot"]["Movement Modifications"]["Speed Modifications"]
-            getgenv().Yuri["Movement Modifications"]["Speed Modifications"]["Enabled"] = e
-            getgenv().Yuri["Movement Modifications"]["Speed Modifications"]["Normal"]["Multiplier"] = sm.Normal.Multiplier
-            getgenv().Yuri["Movement Modifications"]["Speed Modifications"]["Low Health"]["Multiplier"] = sm.Normal.Multiplier + 5
-            getgenv().Yuri["Movement Modifications"]["Speed Modifications"]["Reloading"]["Multiplier"] = sm.Normal.Multiplier + 5
-            getgenv().Yuri["Movement Modifications"]["Speed Modifications"]["Shooting"]["Multiplier"] = sm.Normal.Multiplier + 5
+            getgenv().Emorave["Movement Modifications"]["Speed Modifications"]["Enabled"] = e
+            getgenv().Emorave["Movement Modifications"]["Speed Modifications"]["Normal"]["Multiplier"] = sm.Normal.Multiplier
+            getgenv().Emorave["Movement Modifications"]["Speed Modifications"]["Low Health"]["Multiplier"] = sm.Normal.Multiplier + 5
+            getgenv().Emorave["Movement Modifications"]["Speed Modifications"]["Reloading"]["Multiplier"] = sm.Normal.Multiplier + 5
+            getgenv().Emorave["Movement Modifications"]["Speed Modifications"]["Shooting"]["Multiplier"] = sm.Normal.Multiplier + 5
         end
     end
     
-    print("[Yuri] Applied config:", p)
-    print("[Yuri] Walkspeed enabled:", e)
-    print("[Yuri] Speed multiplier:", getgenv().Yuri["Movement Modifications"]["Speed Modifications"]["Normal"]["Multiplier"])
+    print("[Emorave] Applied config:", p)
+    print("[Emorave] Walkspeed enabled:", e)
+    print("[Emorave] Speed multiplier:", getgenv().Emorave["Movement Modifications"]["Speed Modifications"]["Normal"]["Multiplier"])
 end
 
 function finishAuthentication()
@@ -1041,11 +1041,11 @@ end
 
 repeat task.wait() until _0xACCESS and _0xCFGSEL
 
-if not getgenv().Yuri or not getgenv().Yuri["Global"] or not getgenv().Yuri["Global"]["Enabled"] then
+if not getgenv().Emorave or not getgenv().Emorave["Global"] or not getgenv().Emorave["Global"]["Enabled"] then
     return
 end
 
-print("[Yuri] Mobile Mode:", _0xMOBILE)
+print("[Emorave] Mobile Mode:", _0xMOBILE)
 
 -- Mobile Lock & FOV
 local _0xLOCKED = false
@@ -1064,7 +1064,7 @@ if _0xMOBILE then
     _0xMFOV.Filled = false
     
     local lg = Instance.new("ScreenGui")
-    lg.Name = "YuriLockGui"
+    lg.Name = "EmoraveLockGui"
     lg.Parent = _0x2[6]
     lg.ResetOnSpawn = false
 
@@ -1160,7 +1160,7 @@ if _0xMOBILE then
         sbtn.Position = UDim2.new(rp, -8, 0.5, -8)
         fl.Text = "FOV: " .. _0xCURFOV
         
-        getgenv().Yuri["Silent Aimbot"]["FOV"]["Size"]["X"] = _0xCURFOV
+        getgenv().Emorave["Silent Aimbot"]["FOV"]["Size"]["X"] = _0xCURFOV
     end
     
     sbtn.InputBegan:Connect(function(i)
@@ -1187,7 +1187,7 @@ if _0xMOBILE then
         end
     end)
     
-    print("[Yuri] Mobile lock button and FOV slider created!")
+    print("[Emorave] Mobile lock button and FOV slider created!")
 end
 
 -- Target System
@@ -1229,7 +1229,7 @@ local function _0xGETBP(c)
 end
 
 -- Trigger Bot
-local _0xCFG = getgenv().Yuri
+local _0xCFG = getgenv().Emorave
 local _0xTCFG = _0xCFG["Trigger Bot"]
 local _0xVCFG = _0xCFG["Velocity Calculation"]
 
@@ -1338,8 +1338,8 @@ end)
 
 -- Camera Aimbot with Lock
 do
-    local _0xCACFG = getgenv().Yuri["Camera Aimbot"]
-    local _0xGK = getgenv().Yuri["Global"]["Keybind"] or "E"
+    local _0xCACFG = getgenv().Emorave["Camera Aimbot"]
+    local _0xGK = getgenv().Emorave["Global"]["Keybind"] or "E"
     _0xCACFG["Keybind"] = _0xGK
     _0xCACFG["Snappiness"] = 1
     _0xCACFG["Prediction"]["X"] = 0
@@ -1459,7 +1459,7 @@ do
     end
     
     if _0xMOBILE and _0xLBTN then
-        print("[Yuri] Setting up mobile lock button click handler")
+        print("[Emorave] Setting up mobile lock button click handler")
         _0xLBTN.MouseButton1Click:Connect(function()
             if not _0xLOCKED then
                 local bt = _0xFINDC()
@@ -1534,7 +1534,7 @@ end
 
 -- Silent Aimbot (FIXED FOR MOBILE/SHIFTLOCK)
 do
-    local _0xSACFG = getgenv().Yuri["Silent Aimbot"]
+    local _0xSACFG = getgenv().Emorave["Silent Aimbot"]
     local _0xLP = _0xPLRS.LocalPlayer
     local _0xC = _0x2[5].CurrentCamera
     local _0xM = _0xLP:GetMouse()
@@ -1755,7 +1755,7 @@ game:GetService("UserInputService").InputBegan:Connect(function(i)
             _0xFIRING = true
             local gn = g.Name
             local m = 1
-            local sc = getgenv().Yuri["Movement Modifications"]["Slowdown Modifications"]
+            local sc = getgenv().Emorave["Movement Modifications"]["Slowdown Modifications"]
             if sc and sc["Enabled"] then
                 local wc = sc["Weapons"][gn]
                 if wc then
@@ -1778,9 +1778,9 @@ game:GetService("UserInputService").InputEnded:Connect(function(i)
 end)
 
 -- Spread Modifications
-local _0xSPCFG = getgenv().Yuri
-    and getgenv().Yuri['Weapon Modifications']
-    and getgenv().Yuri['Weapon Modifications']['Spread Modifications']
+local _0xSPCFG = getgenv().Emorave
+    and getgenv().Emorave['Weapon Modifications']
+    and getgenv().Emorave['Weapon Modifications']['Spread Modifications']
 
 local _0xOH = 0.1
 local _0xOV = 0.1
@@ -1839,7 +1839,7 @@ _0xPLR.CharacterAdded:Connect(function()
 end)
 
 -- Walkspeed
-local _0xMZ = getgenv().Yuri
+local _0xMZ = getgenv().Emorave
 local _0xSPCFG2 = _0xMZ["Movement Modifications"]["Speed Modifications"]
 
 print("[Walkspeed] Config Enabled:", _0xSPCFG2.Enabled)
@@ -1907,9 +1907,9 @@ else
     print("[Walkspeed] Disabled by config")
 end
 
-print("[Yuri] Script loaded successfully!")
-print("[Yuri] Executor:", _0xEXE)
-print("[Yuri] Features:", _0xCAP[5] and "Full" or "Limited")
-print("[Yuri] Mobile Shiftlock Fix: ENABLED")
-_0xNOTIFY("Yuri Ready", "All features loaded!", 4)
+print("[Emorave] Script loaded successfully!")
+print("[Emorave] Executor:", _0xEXE)
+print("[Emorave] Features:", _0xCAP[5] and "Full" or "Limited")
+print("[Emorave] Mobile Shiftlock Fix: ENABLED")
+_0xNOTIFY("Emorave Ready", "All features loaded!", 4)
 _0xNOTIFY("Shiftlock Fixed", "Silent aim works in ADS!", 4)
