@@ -29,15 +29,15 @@ getgenv().anarchy = {
             }, 
             ['Binding'] = { 
                 ['Type'] = 'Toggle', -- "Toggle" or "Hold" 
-                ['ToggleMode'] = 'Keyboard', -- "Gamepad" or "Keyboard" 
+                ['ToggleMode'] = 'Gamepad', -- "Gamepad" or "Keyboard" 
                 ['Keybind'] = Enum.KeyCode.Q, 
             }, 
         }, 
     }, 
     ['Visuals'] = { 
-        ['Line'] = true, 
-        ['Dot'] = true, 
-        ['Highlight'] = true, 
+        ['Line'] = false, 
+        ['Dot'] = false, 
+        ['Highlight'] = false, 
     }, 
     ['orbit'] = { 
         ['Keybind'] = Enum.KeyCode.Q, 
