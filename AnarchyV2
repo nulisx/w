@@ -30,7 +30,10 @@ getgenv().anarchy = {
             ['Binding'] = { 
                 ['Type'] = 'Toggle', -- "Toggle" or "Hold" 
                 ['ToggleMode'] = 'Gamepad', -- "Gamepad" or "Keyboard" 
-                ['Keybind'] = Enum.KeyCode.Q, 
+                ['Keybinds'] = {
+    Keyboard = Enum.KeyCode.Q,
+    Gamepad = Enum.KeyCode.ButtonStart
+}, 
             }, 
         }, 
     }, 
