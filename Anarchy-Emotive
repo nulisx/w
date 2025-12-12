@@ -1,0 +1,500 @@
+getgenv().anarchy = { 
+    ['Silentaim'] = { 
+        ['Enabled'] = true, 
+        ['Target'] = { ['Part'] = 'Head' }, 
+        ['Prediction'] = 0.0, 
+        ['FOV'] = { 
+            ['Enabled'] = true, 
+            ['Radius'] = 300, 
+            ['Transparency'] = 1, 
+            ['Thickness'] = 1, 
+            ['Color'] = Color3.fromRGB(255, 0, 0), 
+        }, 
+        ['WallBang'] = { ['Enabled'] = true }, 
+    }, 
+    ['Aimbot'] = { 
+        ['Enabled'] = true, 
+        ['TargetPart'] = 'Head', 
+        ['Prediction'] = { 
+            ['Enabled'] = true, 
+            ['Xaxis'] = 2.4, 
+            ['Yaxis'] = 2.4, 
+        }, 
+        ['Smoothing'] = { 
+            ['Enabled'] = true, 
+            ['Factor'] = 2.1, 
+            ['Easing'] = { 
+                ['Style'] = 'Linear', 
+                ['Direction'] = 'Out', 
+            }, 
+            ['Binding'] = { 
+                ['Type'] = 'Toggle', -- "Toggle" or "Hold" 
+                ['ToggleMode'] = 'Keyboard', -- "Gamepad" or "Keyboard" 
+                ['Keybind'] = Enum.KeyCode.Q, 
+            }, 
+        }, 
+    }, 
+    ['Visuals'] = { 
+        ['Line'] = true, 
+        ['Dot'] = true, 
+        ['Highlight'] = true, 
+    }, 
+    ['orbit'] = { 
+        ['Keybind'] = Enum.KeyCode.Q, 
+        ['Speed'] = 100, 
+        ['Height'] = 2, 
+        ['Radius'] = 3, 
+    }, 
+    ['RapidFire'] = { 
+        ['Enabled'] = true, 
+        ['Keybind'] = Enum.KeyCode.R, 
+    }, 
+    ['Triggerbot'] = { 
+        ['Enabled'] = false, 
+        ['Keybind'] = Enum.KeyCode.T, 
+        ['Delay'] = 0.1, 
+    }, 
+    ['Movement'] = { 
+        ['Walkspeed'] = { 
+            ['Enable'] = true, 
+            ['Method'] = 'MoveDirection', 
+            ['Speed'] = 1, 
+            ['Keybind'] = Enum.KeyCode.C, 
+        }, 
+    }, 
+} 
+--// i was gonna add cloneref but im a lazy 
+--// ALL GAMEGETSERVICES ARE DTCCC LOL UNLESS U CLONEREF SPED TARD 
+local Players = game:GetService('Players') 
+local LocalPlayer = Players.LocalPlayer 
+local Mouse = LocalPlayer:GetMouse() 
+local RunService = game:GetService('RunService') 
+local UserInputService = game:GetService('UserInputService') 
+local ReplicatedStorage = game:GetService('ReplicatedStorage') 
+local Camera = workspace.CurrentCamera 
+local Workspace = game:GetService('Workspace') 
+ 
+--// drawing frames will get dtc ifi  used cause game:getservice is dtc :morai: 
+local FOVCircle = Drawing.new('Circle') 
+FOVCircle.Filled = false 
+ 
+local Line = Drawing.new('Line') 
+Line.Thickness = 1 
+Line.Transparency = 1 
+ 
+local Dot = Drawing.new('Circle') 
+Dot.Radius = 4 
+Dot.Filled = true 
+Dot.Transparency = 1 
+ 
+--// 
+local function GetClosestTarget() 
+    local Closest, ClosestDist = nil, math.huge 
+    local MousePos = UserInputService:GetMouseLocation() 
+ 
+    for _, Player in ipairs(Players:GetPlayers()) do 
+        if Player ~= LocalPlayer and Player.Character then 
+            local Part = Player.Character:FindFirstChild( 
+                getgenv().anarchy['Silentaim']['Target']['Part'] 
+            ) 
+            local Hum = Player.Character:FindFirstChild('Humanoid') 
+            if Part and Hum and Hum.Health > 0 then 
+                local ScreenPos, Visible = 
+                    Camera:WorldToViewportPoint(Part.Position) 
+                local Dist = (MousePos - Vector2.new(ScreenPos.X, ScreenPos.Y)).Magnitude 
+                if 
+                    Visible 
+                    and Dist < getgenv().anarchy['Silentaim']['FOV']['Radius'] 
+                    and Dist < ClosestDist 
+                then 
+                    Closest = Player 
+                    ClosestDist = Dist 
+                end 
+            end 
+        end 
+    end 
+    return Closest 
+end 
+ 
+--// Wallbang 
+local function EnableWallbang() 
+    local MainModule = ReplicatedStorage:FindFirstChild('MainModule') 
+    local Map = workspace:FindFirstChild('MAP') 
+    local Vehicles = workspace:FindFirstChild('Vehicles') 
+    if MainModule and getgenv().anarchy['Silentaim']['WallBang']['Enabled'] then 
+        local mod = require(MainModule) 
+        if Map then 
+            table.insert(mod.Ignored, Map) 
+        end 
+        if Vehicles then 
+            table.insert(mod.Ignored, Vehicles) 
+        end 
+    end 
+end 
+EnableWallbang() 
+ 
+local mt = getrawmetatable(game) 
+setreadonly(mt, false) 
+local __index = mt.__index 
+ 
+mt.__index = function(self, key) 
+    if 
+        not checkcaller() 
+        and self == Mouse 
+        and getgenv().anarchy['Silentaim']['Enabled'] 
+    then 
+        if key == 'Hit' or key == 'Target' then 
+            local Target = GetClosestTarget() 
+            if Target then 
+                local Part = Target.Character 
+                    and Target.Character:FindFirstChild( 
+                        getgenv().anarchy['Silentaim']['Target']['Part'] 
+                    ) 
+                if Part then 
+                    return CFrame.new( 
+                        Part.Position 
+                            + ( 
+                                Part.Velocity 
+                                * getgenv().anarchy['Silentaim']['Prediction'] 
+                            ) 
+                    ) 
+                end 
+            end 
+        end 
+    end 
+    return __index(self, key) 
+end 
+ 
+RunService.RenderStepped:Connect(function() 
+    local cfg = getgenv().anarchy['Silentaim']['FOV'] 
+    FOVCircle.Visible = cfg['Enabled'] 
+    FOVCircle.Color = cfg['Color'] 
+    FOVCircle.Thickness = cfg['Thickness'] 
+    FOVCircle.Transparency = cfg['Transparency'] 
+    FOVCircle.Position = UserInputService:GetMouseLocation() 
+    FOVCircle.Radius = cfg['Radius'] 
+end) 
+ 
+RunService.RenderStepped:Connect(function() 
+    local target = GetClosestTarget() 
+    if target and getgenv().anarchy['Visuals']['Highlight'] then 
+        local part = target.Character:FindFirstChild( 
+            getgenv().anarchy['Silentaim']['Target']['Part'] 
+        ) 
+        if part then 
+            local predicted = part.Position 
+                + part.Velocity 
+                    * getgenv().anarchy['Silentaim']['Prediction'] 
+            local screenPos, onScreen = Camera:WorldToViewportPoint(predicted) 
+ 
+            Dot.Visible = getgenv().anarchy['Visuals']['Dot'] 
+            Dot.Position = Vector2.new(screenPos.X, screenPos.Y) 
+ 
+            Line.Visible = getgenv().anarchy['Visuals']['Line'] 
+            Line.From = UserInputService:GetMouseLocation() 
+            Line.To = Vector2.new(screenPos.X, screenPos.Y) 
+        end 
+    else 
+        Dot.Visible = false 
+        Line.Visible = false 
+    end 
+end) 
+ 
+local lastClick = 0 
+local trigEnabled = getgenv().anarchy['Triggerbot']['Enabled'] 
+UserInputService.InputBegan:Connect(function(input) 
+    if input.KeyCode == getgenv().anarchy['Triggerbot']['Keybind'] then 
+        trigEnabled = not trigEnabled 
+        getgenv().anarchy['Triggerbot']['Enabled'] = trigEnabled 
+    end 
+end) 
+ 
+RunService.RenderStepped:Connect(function() 
+    if not trigEnabled then 
+        return 
+    end 
+ 
+    local closestPlayer = nil 
+    local closestDistance = math.huge 
+    local mousePos = UserInputService:GetMouseLocation() 
+ 
+    for _, player in ipairs(Players:GetPlayers()) do 
+        if player ~= LocalPlayer and player.Character then 
+            local hum = player.Character:FindFirstChild('Humanoid') 
+            local part = player.Character:FindFirstChild('Head') 
+            if hum and part and hum.Health > 0 then 
+                local predicted = part.Position 
+                    + part.Velocity 
+                        * getgenv().anarchy['Silentaim']['Prediction'] 
+                local screenPos, onScreen = 
+                    Camera:WorldToViewportPoint(predicted) 
+                if onScreen then 
+                    local distance = (mousePos - Vector2.new( 
+                        screenPos.X, 
+                        screenPos.Y 
+                    )).Magnitude 
+                    if distance < 15 and distance < closestDistance then 
+                        closestPlayer = player 
+                        closestDistance = distance 
+                    end 
+                end 
+            end 
+        end 
+    end 
+ 
+    if 
+        closestPlayer 
+        and tick() - lastClick >= getgenv().anarchy['Triggerbot']['Delay'] 
+    then 
+        mouse1click() 
+        lastClick = tick() 
+    end 
+end) 
+ 
+local rapidEnabled = getgenv().anarchy['RapidFire']['Enabled'] 
+UserInputService.InputBegan:Connect(function(input) 
+    if input.KeyCode == getgenv().anarchy['RapidFire']['Keybind'] then 
+        rapidEnabled = not rapidEnabled 
+        getgenv().anarchy['RapidFire']['Enabled'] = rapidEnabled 
+    end 
+end) 
+ 
+task.spawn(function() 
+    while true do 
+        task.wait() 
+        if rapidEnabled then 
+            local tool = LocalPlayer.Character 
+                and LocalPlayer.Character:FindFirstChildOfClass('Tool') 
+            if tool and tool:FindFirstChild('GunScript') then 
+                for _, c in pairs(getconnections(tool.Activated)) do 
+                    if c.Function then 
+                        for i = 1, debug.getinfo(c.Function).nups do 
+                            if 
+                                type(debug.getupvalue(c.Function, i)) 
+                                == 'number' 
+                            then 
+                                debug.setupvalue(c.Function, i, 1e-20) 
+                            end 
+                        end 
+                    end 
+                end 
+            end 
+        end 
+    end 
+end) 
+ 
+local moveEnabled = false 
+local moveKey = getgenv().anarchy['Movement']['Walkspeed']['Keybind'] 
+local moveSpeed = getgenv().anarchy['Movement']['Walkspeed']['Speed'] 
+ 
+UserInputService.InputBegan:Connect(function(input, gpe) 
+    if not gpe and input.KeyCode == moveKey then 
+        moveEnabled = not moveEnabled 
+    end 
+end) 
+ 
+RunService.RenderStepped:Connect(function() 
+    if moveEnabled and LocalPlayer.Character then 
+        local root = LocalPlayer.Character:FindFirstChild('HumanoidRootPart') 
+        local hum = LocalPlayer.Character:FindFirstChild('Humanoid') 
+        if root and hum then 
+            local move = hum.MoveDirection 
+            root.CFrame = root.CFrame + move * moveSpeed 
+        end 
+    end 
+end) 
+ 
+local Workspace = game:GetService('Workspace') 
+local Camera = Workspace.CurrentCamera 
+local Players = game:GetService('Players') 
+local LP = Players.LocalPlayer 
+ 
+local UIS = game:GetService('UserInputService') 
+local RS = game:GetService('RunService') 
+ 
+local AimbotActive = false 
+local Target = nil 
+ 
+local function ApplyPrediction(player) 
+    if getgenv().Anarchy.Aimbot.Prediction.Enabled then 
+        local HRP = player.Character 
+            and player.Character:FindFirstChild('HumanoidRootPart') 
+        local Velocity = HRP and HRP.Velocity or Vector3.zero 
+ 
+        local Xoffset = getgenv().Anarchy.Aimbot.Prediction.Xaxis 
+        local Yoffset = getgenv().Anarchy.Aimbot.Prediction.Yaxis 
+ 
+        return Vector3.new( 
+            Velocity.X * Xoffset, 
+            Velocity.Y * Yoffset, 
+            Velocity.Z * Xoffset 
+        ) 
+    end 
+ 
+    return Vector3.zero 
+end 
+ 
+local function GetClosestPlayer() 
+    local closest, shortest = nil, math.huge 
+    for _, plr in pairs(Players:GetPlayers()) do 
+        if 
+            plr ~= LP 
+            and plr.Character 
+            and plr.Character:FindFirstChild('HumanoidRootPart') 
+        then 
+            local screenPos, onScreen = Camera:WorldToViewportPoint( 
+                plr.Character.HumanoidRootPart.Position 
+            ) 
+            if onScreen then 
+                local mousePos = UIS:GetMouseLocation() 
+                local distance = ( 
+                    Vector2.new(screenPos.X, screenPos.Y) - mousePos 
+                ).Magnitude 
+                if distance < shortest then 
+                    shortest = distance 
+                    closest = plr 
+                end 
+            end 
+        end 
+    end 
+    return closest 
+end 
+ 
+RS.RenderStepped:Connect(function() 
+    if 
+        getgenv().Anarchy.Aimbot.Enabled 
+        and AimbotActive 
+        and Target 
+        and Target.Character 
+    then 
+        local part = 
+            Target.Character:FindFirstChild(getgenv().Anarchy.Aimbot.TargetPart) 
+        if part then 
+            local campos = Camera.CFrame.Position 
+            local prediction = ApplyPrediction(Target) + part.Position 
+            local aimDirection = (prediction - campos).Unit 
+            local newLookVector = 
+                Camera.CFrame.LookVector:Lerp(aimDirection, 0.2) 
+            local newCFrame = CFrame.new(campos, campos + newLookVector) 
+            Camera.CFrame = newCFrame 
+        end 
+    end 
+end) 
+ 
+UIS.InputBegan:Connect(function(input, gameProcessed) 
+    if gameProcessed then 
+        return 
+    end 
+    local bind = getgenv().Anarchy.Aimbot.Smoothing.Binding 
+    if bind.ToggleMode == 'Keyboard' and input.KeyCode == bind.Keybind then 
+        if bind.Type == 'Toggle' then 
+            AimbotActive = not AimbotActive 
+            Target = AimbotActive and GetClosestPlayer() or nil 
+        elseif bind.Type == 'Hold' then 
+            AimbotActive = true 
+            Target = GetClosestPlayer() 
+        end 
+    end 
+end) 
+ 
+UIS.InputEnded:Connect(function(input) 
+    local bind = getgenv().Anarchy.Aimbot.Smoothing.Binding 
+    if bind.Type == 'Hold' and input.KeyCode == bind.Keybind then 
+        AimbotActive = false 
+        Target = nil 
+    end 
+end) 
+ 
+local LocalPlr = game.Players.LocalPlayer 
+local RunService = game:GetService('RunService') 
+local Players = game:GetService('Players') 
+local Camera = workspace.CurrentCamera 
+local UserInputService = game:GetService('UserInputService') 
+local TargPlr = nil 
+local TargTp = false 
+ 
+local function GetClosestPlayer2() 
+    local Distance, Player = math.huge 
+    for _, v in pairs(Players:GetPlayers()) do 
+        if v == LocalPlr then 
+            continue 
+        end 
+        if v == nil then 
+            continue 
+        end 
+        local Character = v.Character 
+        local RootPart = Character 
+            and Character:FindFirstChild('HumanoidRootPart') 
+        if not RootPart then 
+            continue 
+        end 
+        local Position, OnScreen = 
+            Camera:WorldToViewportPoint(RootPart.Position) 
+        local Magnitude = ( 
+            Vector2.new(Position.X, Position.Y) 
+            - UserInputService:GetMouseLocation() 
+        ).Magnitude 
+        if Magnitude > Distance then 
+            continue 
+        end 
+        if OnScreen then 
+            Distance = Magnitude 
+            Player = v 
+        end 
+    end 
+    return Player 
+end 
+ 
+local function updateNetworkedPosition() 
+    if TargTp and TargPlr then 
+        local Targ = TargPlr 
+        if 
+            Targ 
+            and Targ.Character 
+            and Targ.Character:FindFirstChild('HumanoidRootPart') 
+        then 
+            local RootPart = LocalPlr.Character.HumanoidRootPart 
+ 
+            local realPosition = RootPart.Position 
+            local realVelocity = RootPart.AssemblyLinearVelocity 
+ 
+            local time = tick() * getgenv().anarchy['orbit']['Speed'] 
+            local radiusX = getgenv().anarchy['orbit']['Radius'] 
+            local radiusZ = getgenv().anarchy['orbit']['Radius'] 
+            local radiusY = getgenv().anarchy['orbit']['Height'] 
+ 
+            local offsetX = math.cos(time) * radiusX 
+            local offsetZ = math.sin(time) * radiusZ 
+            local offsetY = math.sin(time) * radiusY 
+ 
+            local targetCFrame = Targ.Character.HumanoidRootPart.CFrame 
+            RootPart.CFrame = targetCFrame 
+                * CFrame.new(offsetX, offsetY, offsetZ) 
+ 
+            RootPart.AssemblyLinearVelocity = Vector3.new(0, 0, 0) 
+ 
+            task.wait() 
+            RootPart.CFrame = CFrame.new(realPosition) 
+            RootPart.AssemblyLinearVelocity = realVelocity 
+        end 
+    end 
+end 
+ 
+UserInputService.InputBegan:Connect(function(input) 
+    if input.KeyCode == getgenv().anarchy['orbit']['Keybind'] then 
+        if TargPlr then 
+            TargTp = not TargTp 
+            if not TargTp then 
+                TargPlr = nil 
+            end 
+        else 
+            local closestPlayer = GetClosestPlayer2() 
+            if closestPlayer then 
+                TargPlr = closestPlayer 
+                TargTp = true 
+            end 
+        end 
+    end 
+end) 
+ 
+RunService.Heartbeat:Connect(updateNetworkedPosition) 
